@@ -1,5 +1,6 @@
 const fs = require('fs')
 const http = require('http')
+const ulr = require('url')
 
 //Blocking synchronous way
 // const textIn = fs.readFileSync('./txt/input.txt', 'utf-8')
@@ -28,9 +29,20 @@ const http = require('http')
 
 const server = http.createServer((req,res) => {
   //console.log(req)
-  res.end('Hello from the server')
+  const pathName = req.url
+  if(pathName === '/' || pathName === '/overview') {
+    res.end('Hello from OVERVIEW')
+  } else if (pathName === '/product') {
+    res.end('Hello from PRODUCT')
+  } else {
+    res.writeHead(404, {
+      'Content-type' : 'text/html',
+      'my-own-header' : 'hello-world'
+    })
+    res.end('<h1>Page not found!</h1>')
+  }
 })
 
 server.listen(8000,'127.0.0.1', () => {
-  console.log('Server is listening on port 3000')
+  console.log('Server is listening on port 8000')
 })
