@@ -27,14 +27,21 @@ const ulr = require('url')
 
 // console.log('Will read file')
 
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
+const dataObject = JSON.parse(data)
+
 const server = http.createServer((req,res) => {
   //console.log(req)
   const pathName = req.url
   if(pathName === '/' || pathName === '/overview') {
-    res.end('Hello from OVERVIEW')
+      res.end('Hello from OVERVIEW')
   } else if (pathName === '/product') {
-    res.end('Hello from PRODUCT')
-  } else {
+      res.end('Hello from PRODUCT')
+  } else if (pathName === '/api') {
+      res.writeHead(200, { 'Content-type' : 'application/json' })
+      res.end(data)
+  }
+  else {
     res.writeHead(404, {
       'Content-type' : 'text/html',
       'my-own-header' : 'hello-world'
